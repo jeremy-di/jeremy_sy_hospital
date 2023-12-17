@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transmission index{% endblock %}
+
+{% block body %}
+    <h1 class="text-2xl text-center mt-2 mb-5">Liste des transmission</h1>
+
+    {# Tailwind table #}
+            <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com --> 
+            <div class="flex flex-col">
+                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                        <div class="overflow-hidden">
+                            <table class="min-w-full text-left text-sm font-light">
+                            <thead class="border-b font-medium dark:border-neutral-500">
+                                <tr>
+                                    <th scope="col" class="px-6 py-4">Initulé de la transmission</th>
+                                    <th scope="col" class="px-6 py-4">Date</th>
+                                    <th scope="col" class="px-6 py-4">Contenu</th>
+                                    <th scope="col" class="px-6 py-4">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for transmission in transmissions %}
+                                <tr class="border-b dark:border-neutral-500">
+                                    <td class="whitespace-nowrap px-6 py-4 font-medium">{{ transmission.title }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ transmission.date ? transmission.date|date('d/m/Y à H:i') : '' }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ transmission.content }}</td>
+                                    <td class="flex gap-x-1 whitespace-nowrap px-6 py-4">
+                                        {{ include('transmission/_delete_form.html.twig') }}
+                                        <a href="{{ path('app_transmission_edit', {'id': transmission.id}) }}">
+                                            <button
+                                            type="button"
+                                            class="inline-block rounded bg-success px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(20,164,77,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)]">
+                                            Modifier
+                                            </button>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                    <tr>
+                                        <td class="whitespace-nowrap px-6 py-4">Liste vide</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {# Tailwind table #}
+
+        <div class="mt-5 mb-5 text-center">
+            <a href="{{ path('app_transmission_new') }}">
+                <button
+                    type="button"
+                    class="inline-block rounded bg-success px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(20,164,77,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)]">
+                    Ecrire une transmission
+                </button>
+            </a>
+        </div>
+        
+{% endblock %}

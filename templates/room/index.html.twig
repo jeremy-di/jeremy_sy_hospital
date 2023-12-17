@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Room index{% endblock %}
+
+{% block body %}
+    <h1 class="text-2xl text-center mt-2 mb-5">Liste des chambres</h1>
+
+    {# Tailwind table #}
+            <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com --> 
+            <div class="flex flex-col">
+                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                        <div class="overflow-hidden">
+                            <table class="min-w-full text-left text-sm font-light">
+                            <thead class="border-b font-medium dark:border-neutral-500">
+                                <tr>
+                                    <th scope="col" class="px-6 py-4">Numéro de chambre</th>
+                                    <th scope="col" class="px-6 py-4">Service</th>
+                                    <th scope="col" class="px-6 py-4">Type de chambre</th>
+                                    <th scope="col" class="px-6 py-4">Patient attitré</th>
+                                    {% if is_granted('ROLE_MED') or is_granted('ROLE_ADMIN') %}
+                                    <th scope="col" class="px-6 py-4">Actions</th>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for room in rooms %}
+                                <tr class="border-b dark:border-neutral-500 {% if room.service == 'Urgences' %}bg-red-300{% endif %}{% if room.service == 'Cardiologie' %}bg-green-300{% endif %}{% if room.service == 'Chirurgie' %}bg-sky-300{% endif %}{% if room.service == 'Epidemiologie' %}bg-violet-300{% endif %}{% if room.service == 'Geriatrie' %}bg-pink-300{% endif %}{% if room.service == 'Laboratoire' %}bg-gray-300{% endif %}{% if room.service == 'Nephrologie' %}bg-orange-300{% endif %}{% if room.service == 'Oncologie' %}bg-amber-300{% endif %}{% if room.service == 'Pediatrie' %}bg-green-300{% endif %}
+                                {% if room.service == 'Pneumologie' %}bg-teal-300{% endif %}{% if room.service == 'UHTCD' %}bg-blue-300{% endif %}{% if room.service == 'Urgences pediatriques' %}bg-rose-300{% endif %}">
+                                    <td class="whitespace-nowrap px-6 py-4 font-medium">{{ room.number }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ room.service }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ room.type }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">
+                                    {% if room.patient == null %}
+                                    <p class="text-red-600 font-bold">Pas de patient attitré</p>
+                                    {% else %}
+                                    {{room.patient.name}} {{room.patient.firstName}}
+                                    {% endif %}
+                                    </td>
+                                    {% if is_granted('ROLE_MED') or is_granted('ROLE_ADMIN') %}
+                                    <td class="flex gap-x-1 whitespace-nowrap px-6 py-4">
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        {{ include('room/_delete_form.html.twig') }}
+                                        <a href="{{ path('app_room_edit', {'id': room.id}) }}">
+                                            <button
+                                            type="button"
+                                            class="inline-block rounded bg-success px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(20,164,77,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)]">
+                                            Action
+                                            </button>
+                                        </a>
+                                        {% endif %}
+                                        {% if is_granted('ROLE_MED') %}
+                                        <a href="{{ path('app_room_edit_med', {'id': room.id}) }}">
+                                            <button
+                                            type="button"
+                                            class="inline-block rounded bg-success px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(20,164,77,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)]">
+                                            Action
+                                            </button>
+                                        </a>
+                                        {% endif %}
+                                    </td>
+                                    {% endif %}
+                                </tr>
+                                {% else %}
+                                    <tr>
+                                        <td class="whitespace-nowrap px-6 py-4">Liste vide</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {# Tailwind table #}
+
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="mt-5 mb-5 text-center">
+            <a href="{{ path('app_room_new') }}">
+                <button
+                    type="button"
+                    class="inline-block rounded bg-success px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(20,164,77,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)]">
+                    Ajouter une chambre
+                </button>
+            </a>
+        </div>
+    {% endif %}
+{% endblock %}

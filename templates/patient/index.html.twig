@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des patients{% endblock %}
+
+{% block body %}
+    <h1 class="text-2xl text-center mt-2 mb-5">Liste des patients</h1>
+
+    {# Tailwind table #}
+            <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com --> 
+            <div class="flex flex-col">
+                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                        <div class="overflow-hidden">
+                            <table class="min-w-full text-left text-sm font-light">
+                            <thead class="border-b font-medium dark:border-neutral-500">
+                                <tr>
+                                    <th scope="col" class="px-6 py-4">Nom</th>
+                                    <th scope="col" class="px-6 py-4">Prénom</th>
+                                    <th scope="col" class="px-6 py-4">Adresse</th>
+                                    <th scope="col" class="px-6 py-4">Code postal</th>
+                                    <th scope="col" class="px-6 py-4">Ville</th>
+                                    <th scope="col" class="px-6 py-4">Numéro de sécurité sociale</th>
+                                    <th scope="col" class="px-6 py-4">Assurance santé</th>
+                                    <th scope="col" class="px-6 py-4">Numéro de telephone</th>
+                                    <th scope="col" class="px-6 py-4">Pathologie</th>
+                                    <th scope="col" class="px-6 py-4 border-solid border-2 border-red-600">Traitements</th>
+                                    <th scope="col" class="px-6 py-4 border-solid border-2 border-sky-500">Medecin attitré</th>
+                                    {% if is_granted('ROLE_MED') %}
+                                    <th scope="col" class="px-6 py-4">Actions</th>
+                                    {% endif %}
+                                </tr>
+                            </thead>
+                            {# urgences #}
+                            <tbody>
+                            {% for patient in patients %}
+                                <tr class="border-b dark:border-neutral-500">
+                                    <td class="whitespace-nowrap px-6 py-4 font-medium">{{ patient.name }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ patient.firstName }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ patient.address }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ patient.zipCode }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ patient.town }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ patient.inseeNumber }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ patient.medicalMutual }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ patient.phoneNumber }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">{{ patient.pathology }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4">
+                                        <ul>
+                                        {% for treatment in patient.treatment %}
+                                            <li class="text-red-600 font-bold">{{ treatment.name }} </li>
+                                        {% endfor %}
+                                        </ul>
+                                    </td>
+                                    <td class="whitespace-nowrap px-6 py-4">
+                                        <ul>
+                                        {% for medecin in patient.staffmember %}
+                                            <li class="text-sky-500 font-bold">Dr {{ medecin.name }} {{ medecin.firstName }}</li>
+                                        {% endfor %}
+                                        </ul>
+                                    </td>
+                                    <td class="flex gap-x-1 whitespace-nowrap px-6 py-4">
+                                        {% if is_granted('ROLE_MED') or is_granted('ROLE_ADMIN') %}
+                                        {{ include('patient/_delete_form.html.twig') }}
+                                        <a href="{{ path('app_patient_edit', {'id': patient.id}) }}">
+                                        
+                                            <button
+                                            type="button"
+                                            class="inline-block rounded bg-success px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(20,164,77,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)]">
+                                            Modifier
+                                            </button>
+                                        </a>
+                                        {% endif %}
+                                        {% if is_granted('ROLE_INF') %}
+                                        <a href="{{ path('app_patient_edit_nurse', {'id': patient.id}) }}">
+                                        
+                                            <button
+                                            type="button"
+                                            class="inline-block rounded bg-success px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(20,164,77,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)]">
+                                            Modifier
+                                            </button>
+                                        </a>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% else %}
+                                    <tr>
+                                        <td class="whitespace-nowrap px-6 py-4">Liste vide</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {# Tailwind table #}
+
+    {% if is_granted('ROLE_MED') or is_granted('ROLE_ADMIN') %}
+    <div class="mt-5 mb-5 text-center">
+            <a href="{{ path('app_patient_new') }}">
+                <button
+                    type="button"
+                    class="inline-block rounded bg-success px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#14a44d] transition duration-150 ease-in-out hover:bg-success-600 hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:bg-success-600 focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] focus:outline-none focus:ring-0 active:bg-success-700 active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.3),0_4px_18px_0_rgba(20,164,77,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(20,164,77,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(20,164,77,0.2),0_4px_18px_0_rgba(20,164,77,0.1)]">
+                    Ajouter un patient
+                </button>
+            </a>
+        </div>
+        {% endif %}
+{% endblock %}

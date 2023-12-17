@@ -1,0 +1,247 @@
+{# header tw #}
+<!-- Main navigation container -->
+<nav
+  class="relative flex w-full flex-nowrap items-center justify-between bg-[#FBFBFB] py-2 text-neutral-500 shadow-lg hover:text-neutral-700 focus:text-neutral-700 dark:bg-neutral-600 lg:flex-wrap lg:justify-start lg:py-4"
+  data-te-navbar-ref>
+  <div class="flex w-full flex-wrap items-center justify-between px-3">
+    <div class="ml-2">
+      <a class="text-xl text-neutral-800 dark:text-neutral-200" href="#"
+        ><img width="350px" src="{{ asset('imgs/logo.png') }}" alt="logo"></a
+      >
+    </div>
+    <!-- Hamburger button for mobile view -->
+    <button
+      class="block border-0 bg-transparent px-2 text-neutral-500 hover:no-underline hover:shadow-none focus:no-underline focus:shadow-none focus:outline-none focus:ring-0 dark:text-neutral-200 lg:hidden"
+      type="button"
+      data-te-collapse-init
+      data-te-target="#navbarSupportedContent3"
+      aria-controls="navbarSupportedContent3"
+      aria-expanded="false"
+      aria-label="Toggle navigation">
+      <!-- Hamburger icon -->
+      <span class="[&>svg]:w-7">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="h-7 w-7">
+          <path
+            fill-rule="evenodd"
+            d="M3 6.75A.75.75 0 013.75 6h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 6.75zM3 12a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75A.75.75 0 013 12zm0 5.25a.75.75 0 01.75-.75h16.5a.75.75 0 010 1.5H3.75a.75.75 0 01-.75-.75z"
+            clip-rule="evenodd" />
+        </svg>
+      </span>
+    </button>
+
+    <!-- Collapsible navbar container -->
+    <div
+      class="!visible mt-2 hidden flex-grow basis-[100%] items-center lg:mt-0 lg:!flex lg:basis-auto"
+      id="navbarSupportedContent3"
+      data-te-collapse-item>
+      <!-- Left links -->
+      <div
+        class="list-style-none mr-auto flex flex-col pl-0 lg:mt-1 lg:flex-row"
+        data-te-navbar-nav-ref>
+        <!-- Home link -->
+        <div
+          class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1"
+          data-te-nav-item-ref>
+          <a
+            class="active disabled:text-black/30 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+            aria-current="page"
+            href="{{ path('app_home') }}"
+            data-te-nav-link-ref
+            >Accueil</a
+          >
+        </div>
+        {% if app.user %}
+        <div
+          class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1"
+          data-te-nav-item-ref>
+          <a
+            class="active disabled:text-black/30 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+            aria-current="page"
+            href="{{ path('app_logout') }}"
+            data-te-nav-link-ref
+            >Deconnexion</a
+          >
+        </div>
+        {% if is_granted('ROLE_MED') %}
+        <!-- Menu medecin -->
+        <div class="relative" data-te-dropdown-ref>
+          <a
+            class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1 text-white"
+            href="#"
+            type="button"
+            id="dropdownMenuButton2"
+            data-te-dropdown-toggle-ref
+            aria-expanded="false"
+            data-te-ripple-init
+            data-te-ripple-color="light">
+            Menu medecin
+            
+          </a>
+          <ul
+            class="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"
+            aria-labelledby="dropdownMenuButton2"
+            data-te-dropdown-menu-ref>
+            <li>
+              <a
+                class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
+                href="{{ path('app_patient_new') }}"
+                data-te-dropdown-item-ref
+                >Ajouter un patient</a
+              >
+            </li>
+            <li>
+              <a
+                class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
+                href="{{ path('app_treatment_new') }}"
+                data-te-dropdown-item-ref
+                >Ajouter un traitement</a
+              >
+            </li>
+            <li>
+              <a
+                class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
+                href="{{ path('app_transmission_new') }}"
+                data-te-dropdown-item-ref
+                >Ecrire une transmission</a
+              >
+            </li>
+          </ul>
+        </div>
+        {% endif %}
+        {% if is_granted('ROLE_INF') %}
+        <!-- Menu infirmier -->
+        <div class="relative" data-te-dropdown-ref>
+          <a
+            class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1 text-white"
+            href="#"
+            type="button"
+            id="dropdownMenuButton2"
+            data-te-dropdown-toggle-ref
+            aria-expanded="false"
+            data-te-ripple-init
+            data-te-ripple-color="light">
+            Menu Infirmier(e)
+            
+          </a>
+          <ul
+            class="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"
+            aria-labelledby="dropdownMenuButton2"
+            data-te-dropdown-menu-ref>
+            <li>
+              <a
+                class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-white hover:bg-neutral-100 active:text-white active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-white dark:text-white dark:hover:bg-neutral-600"
+                href="{{ path('app_treatment_index') }}"
+                data-te-dropdown-item-ref
+                >Comfirmer la prescription d'un traitement</a
+              >
+            </li>
+            <li>
+              <a
+                class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
+                href="{{ path('app_transmission_new') }}"
+                data-te-dropdown-item-ref
+                >Ecrire une transmission</a
+              >
+            </li>
+          </ul>
+        </div>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+        <!-- Menu administrateur -->
+        <div class="relative" data-te-dropdown-ref>
+          <a
+            class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1 text-white"
+            href="#"
+            type="button"
+            id="dropdownMenuButton2"
+            data-te-dropdown-toggle-ref
+            aria-expanded="false"
+            data-te-ripple-init
+            data-te-ripple-color="light">
+            Menu Administrateur
+            
+          </a>
+          <ul
+            class="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"
+            aria-labelledby="dropdownMenuButton2"
+            data-te-dropdown-menu-ref>
+            <li>
+              <a
+                class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-white hover:bg-neutral-100 active:text-white active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-white dark:text-white dark:hover:bg-neutral-600"
+                href="{{ path('app_user_new') }}"
+                data-te-dropdown-item-ref
+                >Ajouter un membre du personnel</a
+              >
+            </li>
+            <li>
+              <a
+                class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
+                href="{{ path('app_room_new') }}"
+                data-te-dropdown-item-ref
+                >Ajouter une chambre</a
+              >
+            </li>
+            <li>
+              <a
+                class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
+                href="{{ path('app_patient_new') }}"
+                data-te-dropdown-item-ref
+                >Ajouter un patient</a
+              >
+            </li>
+            <li>
+              <a
+                class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
+                href="{{ path('app_treatment_new') }}"
+                data-te-dropdown-item-ref
+                >Ajouter un traitement</a
+              >
+            </li>
+            <li>
+              <a
+                class="block w-full whitespace-nowrap bg-transparent px-4 py-2 text-sm font-normal text-neutral-700 hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
+                href="{{ path('app_transmission_new') }}"
+                data-te-dropdown-item-ref
+                >Ajouter une transmission</a
+              >
+            </li>
+          </ul>
+        </div>
+        {% endif %}
+        {# Bienvenue #}
+        {% if app.user %}
+        <div
+          class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1"
+          data-te-nav-item-ref>
+          <a
+            class="active lg:px-2 [&.active]:text-white dark:[&.active]:text-white"
+            aria-current="page"
+            href="{{ path('app_my_profil') }}"
+            data-te-nav-link-ref
+            >Bonjour <span class="text-orange-400 font-bold">{{ app.user.firstName }} {{ app.user.name }}</span></a
+          >
+        </div>
+        {% endif %}
+        {% else %}
+        <!-- connect link -->
+        <div
+          class="my-4 pl-2 lg:my-0 lg:pl-2 lg:pr-1"
+          data-te-nav-item-ref>
+          <a
+            class="active disabled:text-black/30 lg:px-2 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
+            aria-current="page"
+            href="{{ path('app_login') }}"
+            data-te-nav-link-ref
+            >Connexion</a
+          >
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+{# header tw #}
