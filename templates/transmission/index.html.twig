@@ -7,16 +7,16 @@
 
     {# Tailwind table #}
             <!-- TW Elements is free under AGPL, with commercial license required for specific uses. See more details: https://tw-elements.com/license/ and contact us for queries at tailwind@mdbootstrap.com --> 
-            <div class="flex flex-col">
+            <div class="flex flex-col flex-wrap">
                 <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                         <div class="overflow-hidden">
                             <table class="min-w-full text-left text-sm font-light">
-                            <thead class="border-b font-medium dark:border-neutral-500">
+                            <thead class="border-b font-medium dark:border-neutral-500 w-3/4">
                                 <tr>
                                     <th scope="col" class="px-6 py-4">Initulé de la transmission</th>
                                     <th scope="col" class="px-6 py-4">Date</th>
-                                    <th scope="col" class="px-6 py-4">Contenu</th>
+                                    <th scope="col" class="px-6 py-4 flex flex-wrap">Contenu</th>
                                     <th scope="col" class="px-6 py-4">Actions</th>
                                 </tr>
                             </thead>
@@ -25,7 +25,7 @@
                                 <tr class="border-b dark:border-neutral-500">
                                     <td class="whitespace-nowrap px-6 py-4 font-medium">{{ transmission.title }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ transmission.date ? transmission.date|date('d/m/Y à H:i') : '' }}</td>
-                                    <td class="whitespace-nowrap px-6 py-4">{{ transmission.content }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4 whitespace-pre-wrap">{{ transmission.content }}</td>
                                     <td class="flex gap-x-1 whitespace-nowrap px-6 py-4">
                                         {{ include('transmission/_delete_form.html.twig') }}
                                         <a href="{{ path('app_transmission_edit', {'id': transmission.id}) }}">

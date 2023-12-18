@@ -27,10 +27,10 @@
                                     {% endif %}
                                 </tr>
                             </thead>
-                            <tbody class="border-solid border-2 border-sky-500">
+                            <tbody>
                             {% for user in users|sort %}
                             {% if user.jobTitle == "Medecin" %}
-                                <tr class="border-b dark:border-neutral-500">
+                                <tr class="border-b dark:border-neutral-500 bg-sky-300">
                                     <td class="whitespace-nowrap px-6 py-4 font-medium">{{ user.name }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ user.firstName }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ user.jobTitle }}</td>
@@ -57,10 +57,10 @@
                                         <td class="whitespace-nowrap px-6 py-4">Liste vide</td>
                                     </tr>
                                 {% endfor %}
-                                <tbody class="border-solid border-2 border-amber-600">
+                                <tbody>
                                 {% for user in users %}
                                 {% if user.jobTitle == "Infirmiere" %}
-                                <tr class="border-b dark:border-neutral-500">
+                                <tr class="border-b dark:border-neutral-500 bg-amber-300">
                                     <td class="whitespace-nowrap px-6 py-4 font-medium">{{ user.name }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ user.firstName }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ user.jobTitle }}</td>

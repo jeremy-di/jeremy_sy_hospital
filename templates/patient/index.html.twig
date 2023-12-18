@@ -17,7 +17,6 @@
                                     <th scope="col" class="px-6 py-4">Nom</th>
                                     <th scope="col" class="px-6 py-4">Prénom</th>
                                     <th scope="col" class="px-6 py-4">Adresse</th>
-                                    <th scope="col" class="px-6 py-4">Code postal</th>
                                     <th scope="col" class="px-6 py-4">Ville</th>
                                     <th scope="col" class="px-6 py-4">Numéro de sécurité sociale</th>
                                     <th scope="col" class="px-6 py-4">Assurance santé</th>
@@ -25,6 +24,7 @@
                                     <th scope="col" class="px-6 py-4">Pathologie</th>
                                     <th scope="col" class="px-6 py-4 border-solid border-2 border-red-600">Traitements</th>
                                     <th scope="col" class="px-6 py-4 border-solid border-2 border-sky-500">Medecin attitré</th>
+                                    <th scope="col" class="px-6 py-4">Chambre</th>
                                     {% if is_granted('ROLE_MED') %}
                                     <th scope="col" class="px-6 py-4">Actions</th>
                                     {% endif %}
@@ -37,7 +37,6 @@
                                     <td class="whitespace-nowrap px-6 py-4 font-medium">{{ patient.name }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ patient.firstName }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ patient.address }}</td>
-                                    <td class="whitespace-nowrap px-6 py-4">{{ patient.zipCode }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ patient.town }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ patient.inseeNumber }}</td>
                                     <td class="whitespace-nowrap px-6 py-4">{{ patient.medicalMutual }}</td>
@@ -54,6 +53,13 @@
                                         <ul>
                                         {% for medecin in patient.staffmember %}
                                             <li class="text-sky-500 font-bold">Dr {{ medecin.name }} {{ medecin.firstName }}</li>
+                                        {% endfor %}
+                                        </ul>
+                                    </td>
+                                    <td class="whitespace-nowrap px-6 py-4">
+                                        <ul>
+                                        {% for room in patient.rooms %}
+                                            <li class="text-amber-500 font-bold">{{ room.number }}</li>
                                         {% endfor %}
                                         </ul>
                                     </td>
